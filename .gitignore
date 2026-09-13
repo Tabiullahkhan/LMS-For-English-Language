@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables - NEVER commit these, they contain API keys and secrets
+.env
+*/.env
+
+# Uploaded files (payment screenshots) - not needed in git, and shouldn't be public
+backend/uploads/
+
+# Frontend build output
+frontend/dist/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/

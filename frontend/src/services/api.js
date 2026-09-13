@@ -1,0 +1,20 @@
+import axios from "axios";
+
+// Change this to your deployed backend URL when you go live (e.g. Render URL)
+const API_BASE_URL = "http://localhost:5000/api";
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+// Attach the JWT to every request automatically, if the student is logged in.
+// This means individual pages never have to manually add the auth header themselves.
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;

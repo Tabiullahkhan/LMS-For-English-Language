@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-body text-ink bg-cream dark:text-cream dark:bg-ink transition-colors duration-200;
+}
+
+h1, h2, h3 {
+  @apply font-display;
+}
