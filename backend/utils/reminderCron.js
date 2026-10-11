@@ -51,3 +51,4 @@ const startReminderCron = () => {
 };
 
 module.exports = startReminderCron;
+module.exports.run = runReminderCheck;

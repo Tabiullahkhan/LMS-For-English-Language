@@ -31,3 +31,4 @@ const startExpiryCron = () => {
 };
 
 module.exports = startExpiryCron;
+module.exports.run = runExpiryCheck;
