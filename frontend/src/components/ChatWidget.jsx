@@ -2,6 +2,39 @@ import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
 
+
+// Turns **bold**, *italic* and "* bullet" lines from the AI into proper formatting
+const renderInline = (text) =>
+  text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) return <strong key={i}>{part.slice(2, -2)}</strong>;
+    if (part.startsWith("*") && part.endsWith("*") && part.length > 2) return <em key={i}>{part.slice(1, -1)}</em>;
+    return part;
+  });
+
+const FormattedMessage = ({ text }) => (
+  <div className="space-y-1">
+    {text.split("\n").map((line, i) => {
+      const bullet = line.match(/^\s*[*-]\s+(.*)/);
+      if (bullet) {
+        return (
+          <div key={i} className="flex gap-2">
+            <span>•</span>
+            <span>{renderInline(bullet[1])}</span>
+          </div>
+        );
+      }
+      if (!line.trim()) return <div key={i} className="h-1" />;
+      return <p key={i}>{renderInline(line)}</p>;
+    })}
+  </div>
+);
+
+
+
+
+
+
+
 const ChatWidget = () => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
@@ -61,7 +94,7 @@ const ChatWidget = () => {
                     : "bg-ink/5 text-ink dark:bg-cream/10 dark:text-cream"
                 }`}
               >
-                {msg.text}
+                {msg.role === "user" ? msg.text : <FormattedMessage text={msg.text} />}
               </div>
             ))}
             {sending && <div className="text-xs text-warm-grey">Typing...</div>}
